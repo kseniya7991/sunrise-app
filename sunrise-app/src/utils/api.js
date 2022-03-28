@@ -1,7 +1,7 @@
 //api.openweathermap.org/data/2.5/onecall?lat=53.893009&lon=27.567444&appid=d9fc31c58eae97112f028920774ddb0f
 
 export const BASE_URL =
-  "https://cors-anywhere.herokuapp.com/https://api.openweathermap.org/data/2.5/onecall?lat=53.893009&lon=27.567444&appid=d9fc31c58eae97112f028920774ddb0f";
+  "https://api.openweathermap.org/data/2.5/onecall?lat=53.893009&lon=27.567444&appid=d9fc31c58eae97112f028920774ddb0f";
 
 const handleResponse = (res) => {
   if (!res.ok) {

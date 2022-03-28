@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from "react";
 import logo from "./logo.svg";
 import "./App.css";
-/* import { getWeather } from "./utils/api"; */
+import { getWeather } from "./utils/api";
 import respJSON from "./resp.json";
 
 function App() {
   const [timeNextSun, setTimeNextSun] = useState("");
   const [timeToNextSun, setTimeToNextSun] = useState("");
-  const [test, setTest] = useState(0);
   let currentDate = new Date();
 
-  function getData() {
-    const unixTimeNextSun = respJSON.daily[1].sunrise;
+  function setData(data) {
+    const unixTimeNextSun = data.daily[1].sunrise;
 
     if (unixTimeNextSun) {
       let date = new Date(unixTimeNextSun * 1000);
@@ -23,31 +22,34 @@ function App() {
       ).toString();
       let nextSunM = Math.floor(
         ((date.valueOf() - currentDate.valueOf()) / 1000 / 60) % 60
-      );
+      ).toString();
       let nextSunS = Math.floor(
         ((date.valueOf() - currentDate.valueOf()) / 1000) % 60
       );
-      /*   setTimeToNextSun(
+      setTimeToNextSun(
         `${nextSunH.length === 1 ? "0" + nextSunH : nextSunH}:${
-          nextSunM.length === 1 ? "0" + nextSunM : nextSunM
+          nextSunM.length === 1 ? "0" + nextSunH : nextSunH
         }`
-      ); */
-      setTimeToNextSun(`${nextSunH}, ${nextSunM}`);
+      );
+      console.log(timeToNextSun);
     }
-
-    /* getWeather()
-      .then((res) => console.log(res, respJSON))
-      .catch((err) => console.log(err)); */
   }
+
+  function getData() {
+    getWeather()
+      .then((res) => setData(res))
+      .catch((err) => console.log(err));
+  }
+
   useEffect(() => {
+    getData();
     const interval = setInterval(() => {
       getData();
-      setTest(timeToNextSun);
-      console.log(timeToNextSun);
+      console.log("минута прошла");
     }, 60000);
+
     return () => clearInterval(interval);
-  }, [test]);
-  console.log(test);
+  }, []);
 
   return (
     <div className="App">
@@ -66,7 +68,7 @@ function App() {
           </li>
           <li>
             <span>Время до следующего рассвета</span>
-            <span>{test}</span>
+            <span>{timeToNextSun}</span>
           </li>
         </ul>
       </header>
