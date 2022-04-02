@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 import { getWeather } from "./utils/api";
-/* import respJSON from "./resp.json"; */
+import NextMorning from "./components/nextMorning";
 
 function App() {
-  const [timeNextSun, setTimeNextSun] = useState("");
+  /* const [timeNextSun, setTimeNextSun] = useState("");
   const [timeToNextSun, setTimeToNextSun] = useState("");
   const [nextMornWeather, setNextMornWeather] = useState("");
   const [nextMornTemp, setNextMornTemp] = useState("");
@@ -14,10 +14,11 @@ function App() {
   const [nextMornWindSpeed, setNextMornWindSpeed] = useState("");
   const [nextMornWindDeg, setNextMornWindDeg] = useState("");
   const [nextMornId, setNextMornId] = useState("");
-  const [nextMornClouds, setNextMornClouds] = useState("");
+  const [nextMornClouds, setNextMornClouds] = useState(""); */
   const [data, setData] = useState({});
+  const [currentDate, setCurrentDate] = useState();
 
-  function getCardinalDirection(angle) {
+  /* function getCardinalDirection(angle) {
     const directions = [
       "↑ N",
       "↗ NE",
@@ -29,9 +30,9 @@ function App() {
       "↖ NW",
     ];
     return directions[Math.round(angle / 45) % 8];
-  }
+  } */
 
-  function setInfo(currentDate) {
+  /* function setInfo(currentDate) {
     const unixTimeNextSun = data.daily[1].sunrise;
     let nextSunHours = (unixTimeNextSun - currentDate) / 60 / 60;
     let mornWeather = data.hourly[Math.round(nextSunHours)].weather;
@@ -74,7 +75,7 @@ function App() {
         }`
       );
     }
-  }
+  } */
 
   function getData() {
     getWeather()
@@ -82,16 +83,16 @@ function App() {
       .catch((err) => console.log(err));
   }
 
-  useEffect(() => {
+  /*  useEffect(() => {
     const interval = setInterval(() => {
-      let currentDate = Math.floor(new Date().getTime() / 1000);
-      setInfo(currentDate);
+      setInfo(currentDate, data);
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [data]);
+  }, [data]); */
 
   useEffect(() => {
+    setCurrentDate(Math.floor(new Date().getTime() / 1000));
     getData();
   }, []);
 
@@ -105,48 +106,7 @@ function App() {
         <button className="button" onClick={getData}>
           Нажми сюда
         </button>
-        <ul className="table">
-          <li>
-            <span>Время следующего рассвета </span>
-            <span>{timeNextSun}</span>
-          </li>
-          <li>
-            <span>Время до следующего рассвета </span>
-            <span>{timeToNextSun}</span>
-          </li>
-          <li>
-            <span>Погода на утро </span>
-            <span>{nextMornWeather}</span>
-          </li>
-          <li>
-            <span>Температура на утро </span>
-            <span>{nextMornTemp}</span>
-          </li>
-          <li>
-            <span>Влажность на утро </span>
-            <span>{nextMornHumidity}%</span>
-          </li>
-          <li>
-            <span>Давление на утро </span>
-            <span>{nextMornPressure}</span>
-          </li>
-          <li>
-            <span>Скорость ветра</span>
-            <span>{nextMornWindSpeed} м/с</span>
-          </li>
-          <li>
-            <span>Направление ветра</span>
-            <span>{nextMornWindDeg}</span>
-          </li>
-          <li>
-            <span>id погоды</span>
-            <span>{nextMornId}</span>
-          </li>
-          <li>
-            <span>Облака</span>
-            <span>{nextMornClouds}%</span>
-          </li>
-        </ul>
+        <NextMorning currentDate={currentDate} data={data} />
       </header>
     </div>
   );
