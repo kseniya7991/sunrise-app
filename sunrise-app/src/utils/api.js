@@ -1,7 +1,7 @@
 //api.openweathermap.org/data/2.5/onecall?lat=53.893009&lon=27.567444&appid=d9fc31c58eae97112f028920774ddb0f
 
 export const BASE_URL =
-  "https://api.openweathermap.org/data/2.5/onecall?lat=53.893009&lon=27.567444&appid=d9fc31c58eae97112f028920774ddb0f";
+  "https://api.openweathermap.org/data/2.5/onecall?lat=53.893009&lon=27.567444&units=metric&lang=ru&appid=d9fc31c58eae97112f028920774ddb0f";
 
 const handleResponse = (res) => {
   if (!res.ok) {
@@ -11,14 +11,10 @@ const handleResponse = (res) => {
 };
 
 export const getWeather = () => {
-  return fetch(`${BASE_URL}`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
+  return fetch(`${BASE_URL}`)
     .then(handleResponse)
     .then((data) => {
+      console.log(data);
       return data;
     });
 };
