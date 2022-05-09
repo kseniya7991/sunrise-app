@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import calcProbability from "./calcProbability";
+import Sun from "./Sun/Sun";
 
 export default function NextMorning({ currentDate, data }) {
     const [timeNextSun, setTimeNextSun] = useState("");
@@ -40,8 +41,8 @@ export default function NextMorning({ currentDate, data }) {
         setTemp(nextMorning.temp);
         setHumidity(nextMorning.humidity);
         setPressure(nextMorning.pressure);
-        setWindSpeed(nextMorning.windSpeed);
-        setWindDirection(getCardinalDirection(nextMorning.windDirection));
+        setWindSpeed(nextMorning.wind_speed);
+        setWindDirection(getCardinalDirection(nextMorning.wind_deg));
         setId(nextMorningWeather[0].id);
         setClouds(nextMorning.clouds);
         setProbability(calcProbability(nextMorningWeather[0].id));
@@ -75,7 +76,8 @@ export default function NextMorning({ currentDate, data }) {
     }, [data, currentDate]);
 
     return (
-        <ul className="table">
+        <Sun probability={probability} />
+        /*    <ul className="table">
             <li>
                 <span>Время следующего рассвета </span>
                 <span>{timeNextSun}</span>
@@ -120,6 +122,6 @@ export default function NextMorning({ currentDate, data }) {
                 <span>Вероятность</span>
                 <span>{probability}%</span>
             </li>
-        </ul>
+        </ul> */
     );
 }
